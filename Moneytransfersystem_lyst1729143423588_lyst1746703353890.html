@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Transfer Functionality </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        #transaction-password-section {
+            display: none;
+            margin-top: 20px;
+        }
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Online Money Transfer System</h2>
+
+    <form id="transfer-form">
+        <div class="form-group">
+            <label for="from-account">Select Your Account Number:</label>
+            <select id="from-account" required>
+                <option value="" disabled selected>Select your account</option>
+                <option value="1234567890">1234567890</option>
+                <option value="0987654321">0987654321</option>
+                <option value="1122334455">1122334455</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="to-account">Select Account to Transfer:</label>
+            <select id="to-account" required>
+                <option value="" disabled selected>Select recipient account</option>
+                <option value="2233445566">2233445566</option>
+                <option value="3344556677">3344556677</option>
+                <option value="4455667788">4455667788</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">Enter Amount to Transfer (1 to 1,000,000):</label>
+            <input type="text" id="amount" required>
+        </div>
+
+        <button type="button" id="send-money">Send Money</button>
+        <button type="button" id="refresh">Refresh</button>
+    </form>
+
+    <div id="transaction-password-section">
+        <div class="form-group">
+            <label for="transaction-password">Enter Transaction Password:</label>
+            <input type="password" id="transaction-password" required>
+        </div>
+        <button type="button" id="confirm-transaction">Confirm Transaction</button>
+    </div>
+
+    <div id="message"></div>
+
+    <script>
+        document.getElementById('send-money').addEventListener('click', function() {
+            var fromAccount = document.getElementById('from-account').value;
+            var toAccount = document.getElementById('to-account').value;
+            var amount = document.getElementById('amount').value;
+
+            if (!fromAccount || !toAccount || !amount) {
+                alert("Please fill out all fields correctly.");
+                return;
+            }
+
+            // Check if the entered amount is a valid number and within range
+            var amountNumber = parseFloat(amount);
+            if (isNaN(amountNumber) || amountNumber < 1 || amountNumber > 1000000) {
+                alert("Your amount is not in range.");
+                return;
+            }
+
+            document.getElementById('transaction-password-section').style.display = 'block';
+        });
+
+        document.getElementById('confirm-transaction').addEventListener('click', function() {
+            var password = document.getElementById('transaction-password').value;
+            var messageElement = document.getElementById('message');
+
+            if (password === '123456') {
+                messageElement.textContent = 'Transaction Successful!';
+                messageElement.style.color = 'green';
+            } else {
+                messageElement.textContent = 'Transaction Failed. Incorrect Password.';
+                messageElement.style.color = 'red';
+            }
+        });
+
+        // Refresh button functionality
+        document.getElementById('refresh').addEventListener('click', function() {
+            document.getElementById('transfer-form').reset();
+            document.getElementById('transaction-password-section').style.display = 'none';
+            document.getElementById('message').textContent = '';
+        });
+    </script>
+
+</body>
+</html>
+
